@@ -1,5 +1,7 @@
 import React, {Component}   from 'react'
 var WebFont = require('webfontloader');
+import Select from 'react-select'
+import '../scss/react-select.scss';
 
 import GameBoard            from './containers/game-board.jsx'
 
@@ -12,7 +14,13 @@ export default class MindGame extends Component {
         })
     }
 
+    state = {
+        difficulty: '',
+        tiles: 8
+    }
+
     render() {
+        let option = {label: this.state.difficulty, value: this.state.tiles}
         return(
             <main className="mind-game">
                 <div className="row">
@@ -26,8 +34,19 @@ export default class MindGame extends Component {
                         <p>
                             You win when all pairs have been found.
                         </p>
+                        <h4>Select Difficulty</h4>
+                        <Select
+                            value={option}
+                            placeholder="Select difficulty level..."
+                            options={[
+                                {label: 'Easy', value: 8},
+                                {label: 'Medium', value: 16},
+                            ]}
+                            onChange={val=>this.setState({difficulty: val.label, tiles: val.value})}
+                        />
+                        {/* <button className="red">Reset</button> */}
                     </div>
-                    <GameBoard/>
+                    <GameBoard tiles={this.state.tiles}/>
                 </div>
             </main>
         )

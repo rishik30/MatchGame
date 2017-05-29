@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React, {Component}   from 'react'
+import HELPER               from '../../helper'
 
 const COLORS = [
     "#e74c3c",
@@ -15,9 +16,9 @@ const FIXEDCOLOR = "#757575"
 export default class GameBoard extends Component {
 
     initialState = {
-        number: 8,
+        number: this.props.tiles,
         cards: [],
-        leftCards: []
+        locked: false
     }
 
     constructor(props) {
@@ -32,9 +33,24 @@ export default class GameBoard extends Component {
         }, 100)
     }
 
-    componentDidUpdate() {
-        console.log(this.state.leftCards)
+    componentWillReceiveProps(nextProps) {
+        this.setState({number: nextProps.tiles, cards: [], locked: false})
+        HELPER.emptyArray(this._flippedCards)
+        setTimeout(()=>{
+            this._setCards()
+        }, 0)
+    }
 
+    _isOver = () => {
+        let prevState = this.state
+        if(prevState.locked) return
+        let locked = false
+        let counter = 0
+        for(var i = 0; i < prevState.cards.length; i++) {
+            if(prevState.cards[i].fixed) counter+=1
+        }
+        if(counter===prevState.cards.length) locked = true
+        this.setState({locked})
     }
 
     _flippedCards = []
@@ -42,6 +58,7 @@ export default class GameBoard extends Component {
 
 
     render() {
+        console.log(this.state.locked)
         return(
             <section className="game-board column">
                 {this.state.cards.map((card, i) => {
@@ -78,9 +95,7 @@ export default class GameBoard extends Component {
                     this._flippedCards[i].bgcolor = FIXEDCOLOR
                 }
 
-                while(this._flippedCards.length) {
-                    this._flippedCards.pop()
-                }
+                HELPER.emptyArray(this._flippedCards)
 
             }
             else {
@@ -92,11 +107,8 @@ export default class GameBoard extends Component {
                     this._prevIndex = null
                     let initialState = this.initialState
                     this.setState({cards: initialState.cards})
-                    // console.log('SETTIMEOUT WHEN VALUES DONT MATCH')
-                    while(this._flippedCards.length) {
-                        this._flippedCards.pop()
-                    }
-                    // console.log('FLIPPED ARRAY EMPTY', this._flippedCards)
+
+                    HELPER.emptyArray(this._flippedCards)
                 }, 500)
             }
         }
@@ -118,20 +130,9 @@ export default class GameBoard extends Component {
             }
         }
 
-        this._randomize(cards.arr)
-
+        let randomArray = HELPER.randomize(cards.arr)
+        this.setState({cards: randomArray})
     }
-
-    _randomize = (arr) => {
-        for(var i = arr.length-1; i > 0; i--) {
-            let j = Math.floor(Math.random()*arr.length)
-            let tmp = arr[i]
-            arr[i] = arr[j]
-            arr[j] = tmp
-        }
-        this.setState({cards: arr})
-    }
-
 }
 
 class Card extends Component {
