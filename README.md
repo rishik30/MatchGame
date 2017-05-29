@@ -1,7 +1,11 @@
-# redux-blog
+# MATCH GAME
 
 To start this project:
-=> Navigate to root folder and run this command
+=> Navigate to root folder and run the command
 ```js
-npm start 
+npm start
+```
+OR
+```js
+yarn start
 ```
