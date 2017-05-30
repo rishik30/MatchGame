@@ -1,11 +1,29 @@
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack')
 
 const extractPlugin = new ExtractTextPlugin({
     filename: "style.css"
 })
 
+const definePlugin = new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('production')
+})
+
+const uglifyPlugin = new webpack.optimize.UglifyJsPlugin({
+    beautify: false,
+    mangle: {
+        screw_ie8: true,
+        keep_fnames: true
+    },
+    compress: {
+        screw_ie8: true
+    },
+    comments: false
+})
+
 module.exports = {
+    devtool: 'source-map',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'build'),
@@ -36,10 +54,12 @@ module.exports = {
         ]
     },
     plugins: [
-        extractPlugin
+        extractPlugin,
+        definePlugin,
+        uglifyPlugin
     ],
     devServer: {
         historyApiFallback: true,        /* History API will fall back to index.html
-                                        resolves Cannot GET /[page_name]*/                             
+                                        resolves Cannot GET /[page_name] */
     }
 }

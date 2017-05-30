@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "postinstall": "webpack -p",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +26,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "express": "^4.15.3",
     "lodash": "^4.17.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
