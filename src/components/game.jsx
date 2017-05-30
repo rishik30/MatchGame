@@ -35,7 +35,7 @@ export default class MindGame extends Component {
                             You win when all pairs have been found.
                         </p>
                         <h4>Select Difficulty</h4>
-                        <Select
+                        {/* <Select
                             value={option}
                             placeholder="Select difficulty level..."
                             options={[
@@ -43,7 +43,7 @@ export default class MindGame extends Component {
                                 {label: 'Medium', value: 16},
                             ]}
                             onChange={val=>this.setState({difficulty: val.label, tiles: val.value})}
-                        />
+                        /> */}
                         {/* <button className="red">Reset</button> */}
                     </div>
                     <GameBoard tiles={this.state.tiles}/>
