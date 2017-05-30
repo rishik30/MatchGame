@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server",
-    "start": "node app.js"
+    "start": "webpack -p && node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +38,7 @@
     "redux-promise": "^0.5.3",
     "webfont-loader": "^1.0.0",
     "webfontloader": "^1.6.27",
+    "webpack": "^2.6.1",
     "whatwg-fetch": "^2.0.3"
   }
 }
